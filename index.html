@@ -1,0 +1,1128 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mohamed Ali Abou Hamail - Interactive CV</title>
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#f0f7ff',
+              100: '#e0effe',
+              500: '#0284c7',
+              600: '#026597',
+              700: '#0369a1',
+              800: '#075985',
+              900: '#0c4a6e',
+              950: '#082f49',
+            },
+            accent: {
+              gold: '#d97706',
+              emerald: '#059669',
+              teal: '#0d9488'
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'Cairo', 'Segoe UI', 'sans-serif'],
+            arabic: ['Cairo', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+  
+  <!-- Font Awesome Icons & Google Fonts -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* Custom Styling & Print Media Rules */
+    body {
+      font-family: 'Inter', 'Cairo', sans-serif;
+      transition: background-color 0.3s, color 0.3s;
+    }
+    
+    [dir="rtl"] {
+      font-family: 'Cairo', 'Inter', sans-serif;
+    }
+
+    /* Print Custom Styles */
+    @media print {
+      .no-print {
+        display: none !important;
+      }
+      body {
+        background: white !important;
+        color: black !important;
+        font-size: 12pt;
+      }
+      .print-shadow-none {
+        box-shadow: none !important;
+        border: 1px solid #e2e8f0 !important;
+      }
+      .page-break-inside-avoid {
+        break-inside: avoid;
+      }
+      .print-full-width {
+        width: 100% !important;
+        max-width: 100% !important;
+      }
+    }
+
+    /* Custom Glassmorphism Effect */
+    .glass-card {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+    .dark .glass-card {
+      background: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f1f5f9;
+    }
+    .dark ::-webkit-scrollbar-track {
+      background: #0f172a;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #94a3b8;
+      border-radius: 4px;
+    }
+    .dark ::-webkit-scrollbar-thumb {
+      background: #334155;
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 dark:bg-slate-950 dark:text-slate-100 min-h-screen flex flex-col selection:bg-brand-500 selection:text-white">
+
+  <!-- TOP NAVIGATION / TOOLBAR -->
+  <header class="sticky top-0 z-40 w-full glass-card border-b border-slate-200 dark:border-slate-800 no-print transition-all">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <!-- Logo / Name Badge -->
+      <div class="flex items-center space-x-3 rtl:space-x-reverse">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-700 to-brand-500 flex items-center justify-center text-white font-bold text-xl shadow-md">
+          M
+        </div>
+        <span class="font-bold text-lg hidden sm:inline-block tracking-tight text-slate-900 dark:text-white" id="nav-title">
+          Mohamed Ali Abou Hamail
+        </span>
+      </div>
+
+      <!-- Action Buttons (Theme, Language, Contact, Print) -->
+      <div class="flex items-center space-x-2 sm:space-x-3 rtl:space-x-reverse">
+        <!-- Language Switcher -->
+        <button id="lang-toggle-btn" onclick="toggleLanguage()" class="flex items-center space-x-1.5 rtl:space-x-reverse px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 transition-colors border border-slate-200 dark:border-slate-700">
+          <i class="fa-solid fa-globe text-brand-600 dark:text-brand-500"></i>
+          <span id="lang-label">عربي</span>
+        </button>
+
+        <!-- Dark/Light Theme Switcher -->
+        <button id="theme-toggle-btn" onclick="toggleTheme()" class="p-2 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" title="Toggle Theme">
+          <i class="fa-solid fa-moon dark:hidden"></i>
+          <i class="fa-solid fa-sun hidden dark:inline"></i>
+        </button>
+
+        <!-- Contact Modal Trigger Button -->
+        <button onclick="openContactModal()" class="hidden md:flex items-center space-x-1.5 rtl:space-x-reverse px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-brand-600 hover:bg-brand-700 text-white shadow-sm transition-colors">
+          <i class="fa-solid fa-paper-plane"></i>
+          <span data-i18n="btn-contact">Send Message</span>
+        </button>
+
+        <!-- Export PDF / Print Button -->
+        <button onclick="window.print()" class="flex items-center space-x-1.5 rtl:space-x-reverse px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-emerald-600 hover:bg-emerald-700 text-white shadow-sm transition-colors">
+          <i class="fa-solid fa-print"></i>
+          <span data-i18n="btn-print">Print / PDF</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN CONTAINER -->
+  <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+
+    <!-- HERO SECTION -->
+    <section class="relative rounded-3xl bg-gradient-to-br from-slate-900 via-brand-950 to-slate-900 text-white p-6 sm:p-10 shadow-2xl overflow-hidden page-break-inside-avoid print-shadow-none">
+      <!-- Background Decorative Elements -->
+      <div class="absolute -right-16 -top-16 w-64 h-64 rounded-full bg-brand-500/10 blur-3xl pointer-events-none"></div>
+      <div class="absolute -left-16 -bottom-16 w-64 h-64 rounded-full bg-emerald-500/10 blur-3xl pointer-events-none"></div>
+      
+      <div class="relative z-10 flex flex-col lg:flex-row items-center lg:items-start gap-8">
+        <!-- Profile Image Container -->
+        <div class="relative group">
+          <div class="absolute -inset-1 bg-gradient-to-r from-brand-500 to-emerald-500 rounded-full blur opacity-75 group-hover:opacity-100 transition duration-300"></div>
+          <div class="relative w-36 h-36 sm:w-44 sm:h-44 rounded-full overflow-hidden border-4 border-slate-900 shadow-xl bg-slate-800">
+            <img 
+              src="https://raw.githubusercontent.com/mohamedabohamail78-ship-it/Mycards/main/%D8%B5%D9%88%D8%B1%D8%A9%20%D8%B4%D8%AE%D8%B5%D9%8A%D8%A9.jpeg" 
+              alt="Mohamed Ali Abou Hamail Profile Picture" 
+              class="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
+              onerror="this.onerror=null; this.src='https://placehold.co/200x200/0f172a/ffffff?text=Mohamed+Abou+Hamail';"
+            />
+          </div>
+          <!-- Verification / Active Badge -->
+          <div class="absolute bottom-2 right-2 bg-emerald-500 text-white text-xs px-2.5 py-1 rounded-full font-bold shadow-lg flex items-center gap-1 border-2 border-slate-900" title="Verified License Holder">
+            <i class="fa-solid fa-check-double"></i>
+            <span data-i18n="badge-licensed">Licensed</span>
+          </div>
+        </div>
+
+        <!-- Bio & Main Info -->
+        <div class="flex-1 text-center lg:text-left rtl:lg:text-right space-y-4">
+          <div>
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-500/20 text-brand-300 border border-brand-500/30 text-xs font-semibold mb-3">
+              <i class="fa-solid fa-graduation-cap"></i>
+              <span data-i18n="tagline">Senior Educator & Special Education Specialist</span>
+            </div>
+            <h1 class="text-2xl sm:text-4xl font-extrabold tracking-tight text-white" id="hero-name">
+              Mohamed Ali Hussein Abdul Rahman Abou Hamail
+            </h1>
+            <p class="text-base sm:text-xl text-slate-300 font-medium mt-1" data-i18n="role-title">
+              Senior English Language Teacher
+            </p>
+          </div>
+
+          <!-- Current School & Location Badge -->
+          <div class="flex flex-wrap items-center justify-center lg:justify-start gap-3 text-xs sm:text-sm text-slate-300">
+            <span class="flex items-center gap-1.5 bg-slate-800/80 px-3 py-1.5 rounded-lg border border-slate-700">
+              <i class="fa-solid fa-school text-brand-400"></i>
+              <span data-i18n="current-school">Dukhan Joint School for Boys</span>
+            </span>
+            <span class="flex items-center gap-1.5 bg-slate-800/80 px-3 py-1.5 rounded-lg border border-slate-700">
+              <i class="fa-solid fa-location-dot text-rose-400"></i>
+              <span data-i18n="location">Doha - Bin Mahmoud, Qatar</span>
+            </span>
+            <span class="flex items-center gap-1.5 bg-slate-800/80 px-3 py-1.5 rounded-lg border border-slate-700">
+              <i class="fa-solid fa-passport text-amber-400"></i>
+              <span data-i18n="nationality">Egyptian</span>
+            </span>
+          </div>
+
+          <!-- Quick Action Buttons / Contact Details -->
+          <div class="pt-2 flex flex-wrap items-center justify-center lg:justify-start gap-3 no-print">
+            <!-- Call Button -->
+            <a href="tel:+97466523184" class="flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-white text-xs font-semibold border border-slate-700 transition">
+              <i class="fa-solid fa-phone text-emerald-400"></i>
+              <span>+974 66523184</span>
+            </a>
+            <!-- Email Button -->
+            <a href="mailto:m.abouhamail2201@education.qa" class="flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-white text-xs font-semibold border border-slate-700 transition">
+              <i class="fa-solid fa-envelope text-brand-400"></i>
+              <span>m.abouhamail2201@education.qa</span>
+            </a>
+            <!-- WhatsApp Quick Link -->
+            <a href="https://wa.me/97466523184" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold shadow-md transition">
+              <i class="fa-brands fa-whatsapp text-lg"></i>
+              <span>WhatsApp</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- KEY STATS METRICS GRID -->
+    <section class="grid grid-cols-2 md:grid-cols-4 gap-4 page-break-inside-avoid">
+      <div class="bg-white dark:bg-slate-900 rounded-2xl p-4 sm:p-5 border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-md transition">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-brand-50 dark:bg-brand-950/60 text-brand-600 dark:text-brand-400 flex items-center justify-center font-bold text-lg">
+            <i class="fa-solid fa-clock-rotate-left"></i>
+          </div>
+          <div>
+            <div class="text-xl sm:text-2xl font-black text-slate-900 dark:text-white">25+</div>
+            <div class="text-xs text-slate-500 dark:text-slate-400 font-medium" data-i18n="stat-total-exp">Years Total Experience</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white dark:bg-slate-900 rounded-2xl p-4 sm:p-5 border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-md transition">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 flex items-center justify-center font-bold text-lg">
+            <i class="fa-solid fa-flag"></i>
+          </div>
+          <div>
+            <div class="text-xl sm:text-2xl font-black text-slate-900 dark:text-white">16+</div>
+            <div class="text-xs text-slate-500 dark:text-slate-400 font-medium" data-i18n="stat-qatar-exp">Years Teaching in Qatar</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white dark:bg-slate-900 rounded-2xl p-4 sm:p-5 border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-md transition">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-amber-50 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400 flex items-center justify-center font-bold text-lg">
+            <i class="fa-solid fa-hands-holding-child"></i>
+          </div>
+          <div>
+            <div class="text-xl sm:text-2xl font-black text-slate-900 dark:text-white" data-i18n="stat-spec-ed-title">Diploma</div>
+            <div class="text-xs text-slate-500 dark:text-slate-400 font-medium" data-i18n="stat-spec-ed">Special Education</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white dark:bg-slate-900 rounded-2xl p-4 sm:p-5 border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-md transition">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-purple-50 dark:bg-purple-950/60 text-purple-600 dark:text-purple-400 flex items-center justify-center font-bold text-lg">
+            <i class="fa-solid fa-id-card"></i>
+          </div>
+          <div>
+            <div class="text-xl sm:text-2xl font-black text-slate-900 dark:text-white">3</div>
+            <div class="text-xs text-slate-500 dark:text-slate-400 font-medium" data-i18n="stat-licenses">Official Licenses</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTENT TABS / NAVIGATION SYSTEM -->
+    <div class="no-print border-b border-slate-200 dark:border-slate-800 flex overflow-x-auto space-x-2 rtl:space-x-reverse pb-1 scrollbar-none">
+      <button onclick="switchTab('overview')" id="tab-btn-overview" class="tab-btn active-tab px-4 py-2.5 rounded-xl font-semibold text-xs sm:text-sm whitespace-nowrap transition-all flex items-center gap-2">
+        <i class="fa-solid fa-user-gear"></i>
+        <span data-i18n="tab-overview">Overview & Objective</span>
+      </button>
+      <button onclick="switchTab('experience')" id="tab-btn-experience" class="tab-btn px-4 py-2.5 rounded-xl font-semibold text-xs sm:text-sm whitespace-nowrap transition-all flex items-center gap-2 text-slate-600 dark:text-slate-400 hover:text-brand-600 dark:hover:text-brand-400">
+        <i class="fa-solid fa-briefcase"></i>
+        <span data-i18n="tab-experience">Teaching Experience</span>
+      </button>
+      <button onclick="switchTab('education')" id="tab-btn-education" class="tab-btn px-4 py-2.5 rounded-xl font-semibold text-xs sm:text-sm whitespace-nowrap transition-all flex items-center gap-2 text-slate-600 dark:text-slate-400 hover:text-brand-600 dark:hover:text-brand-400">
+        <i class="fa-solid fa-graduation-cap"></i>
+        <span data-i18n="tab-education">Education & Licenses</span>
+      </button>
+      <button onclick="switchTab('training')" id="tab-btn-training" class="tab-btn px-4 py-2.5 rounded-xl font-semibold text-xs sm:text-sm whitespace-nowrap transition-all flex items-center gap-2 text-slate-600 dark:text-slate-400 hover:text-brand-600 dark:hover:text-brand-400">
+        <i class="fa-solid fa-certificate"></i>
+        <span data-i18n="tab-training">Training Courses</span>
+      </button>
+      <button onclick="switchTab('skills')" id="tab-btn-skills" class="tab-btn px-4 py-2.5 rounded-xl font-semibold text-xs sm:text-sm whitespace-nowrap transition-all flex items-center gap-2 text-slate-600 dark:text-slate-400 hover:text-brand-600 dark:hover:text-brand-400">
+        <i class="fa-solid fa-list-check"></i>
+        <span data-i18n="tab-skills">Core Competencies</span>
+      </button>
+    </div>
+
+    <!-- TAB CONTENTS CONTAINER -->
+    <div class="space-y-8">
+
+      <!-- SECTION: OVERVIEW & CAREER OBJECTIVE -->
+      <section id="tab-content-overview" class="tab-content space-y-6">
+        <div class="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-8 border border-slate-200 dark:border-slate-800 shadow-sm page-break-inside-avoid">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-8 h-8 rounded-lg bg-brand-50 dark:bg-brand-950/60 text-brand-600 dark:text-brand-400 flex items-center justify-center font-bold">
+              <i class="fa-solid fa-bullseye"></i>
+            </div>
+            <h2 class="text-xl font-bold text-slate-900 dark:text-white" data-i18n="section-objective-title">
+              Career Objective & Profile
+            </h2>
+          </div>
+          <p class="text-slate-600 dark:text-slate-300 leading-relaxed text-sm sm:text-base font-normal" data-i18n="objective-text">
+            Utilizing extensive 25-year teaching experience to enhance educational practices, boost academic achievement, and foster student skills through modern teaching strategies and specialized expertise in Special Education. Passionate about creating inclusive, technology-integrated learning environments that empower students across diverse academic levels in Qatar.
+          </p>
+        </div>
+
+        <!-- Personal Info Details Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 page-break-inside-avoid">
+          <div class="bg-white dark:bg-slate-900 rounded-3xl p-6 border border-slate-200 dark:border-slate-800 shadow-sm">
+            <h3 class="text-base font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
+              <i class="fa-solid fa-user text-brand-500"></i>
+              <span data-i18n="personal-details-title">Personal Details</span>
+            </h3>
+            <ul class="space-y-3 text-sm">
+              <li class="flex justify-between border-b border-slate-100 dark:border-slate-800/80 pb-2">
+                <span class="text-slate-500 dark:text-slate-400" data-i18n="lbl-id">Personal ID Number:</span>
+                <span class="font-semibold text-slate-800 dark:text-slate-200">27881807558</span>
+              </li>
+              <li class="flex justify-between border-b border-slate-100 dark:border-slate-800/80 pb-2">
+                <span class="text-slate-500 dark:text-slate-400" data-i18n="lbl-jobid">Job ID / Employee ID:</span>
+                <span class="font-semibold text-slate-800 dark:text-slate-200">79051</span>
+              </li>
+              <li class="flex justify-between border-b border-slate-100 dark:border-slate-800/80 pb-2">
+                <span class="text-slate-500 dark:text-slate-400" data-i18n="lbl-specialty">Specialized Field:</span>
+                <span class="font-semibold text-brand-600 dark:text-brand-400" data-i18n="val-specialty">English Language Education</span>
+              </li>
+              <li class="flex justify-between border-b border-slate-100 dark:border-slate-800/80 pb-2">
+                <span class="text-slate-500 dark:text-slate-400" data-i18n="lbl-religion">Religion:</span>
+                <span class="font-semibold text-slate-800 dark:text-slate-200" data-i18n="val-religion">Muslim</span>
+              </li>
+              <li class="flex justify-between pb-1">
+                <span class="text-slate-500 dark:text-slate-400" data-i18n="lbl-residence">Residence Area:</span>
+                <span class="font-semibold text-slate-800 dark:text-slate-200" data-i18n="val-residence">Doha - Bin Mahmoud, Qatar</span>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Highlighted Professional Strengths -->
+          <div class="bg-white dark:bg-slate-900 rounded-3xl p-6 border border-slate-200 dark:border-slate-800 shadow-sm">
+            <h3 class="text-base font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
+              <i class="fa-solid fa-star text-amber-500"></i>
+              <span data-i18n="key-highlights-title">Key Highlights</span>
+            </h3>
+            <div class="space-y-3">
+              <div class="p-3 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-800 flex items-start gap-3">
+                <i class="fa-solid fa-award text-emerald-500 text-lg mt-0.5"></i>
+                <div>
+                  <h4 class="font-bold text-xs sm:text-sm text-slate-900 dark:text-white" data-i18n="hl-1-title">Licensed Educator in Qatar</h4>
+                  <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5" data-i18n="hl-1-desc">Official Teaching License from the Ministry of Education and Higher Education in Qatar.</p>
+                </div>
+              </div>
+
+              <div class="p-3 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-800 flex items-start gap-3">
+                <i class="fa-solid fa-children text-brand-500 text-lg mt-0.5"></i>
+                <div>
+                  <h4 class="font-bold text-xs sm:text-sm text-slate-900 dark:text-white" data-i18n="hl-2-title">Special Education Integration</h4>
+                  <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5" data-i18n="hl-2-desc">Professional diploma specializing in adaptive learning methods for students with individual needs.</p>
+                </div>
+              </div>
+
+              <div class="p-3 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-800 flex items-start gap-3">
+                <i class="fa-solid fa-laptop-code text-purple-500 text-lg mt-0.5"></i>
+                <div>
+                  <h4 class="font-bold text-xs sm:text-sm text-slate-900 dark:text-white" data-i18n="hl-3-title">EdTech Leadership</h4>
+                  <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5" data-i18n="hl-3-desc">Certified INTL & ICDL teacher leveraging smart classroom tech and digital instruction tools.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION: EXPERIENCE TIMELINE -->
+      <section id="tab-content-experience" class="tab-content hidden space-y-6">
+        <div class="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-8 border border-slate-200 dark:border-slate-800 shadow-sm">
+          <div class="flex items-center justify-between mb-8">
+            <div class="flex items-center gap-3">
+              <div class="w-8 h-8 rounded-lg bg-brand-50 dark:bg-brand-950/60 text-brand-600 dark:text-brand-400 flex items-center justify-center font-bold">
+                <i class="fa-solid fa-briefcase"></i>
+              </div>
+              <h2 class="text-xl font-bold text-slate-900 dark:text-white" data-i18n="exp-title">
+                Teaching & Professional Experience
+              </h2>
+            </div>
+            <span class="text-xs font-semibold px-3 py-1 rounded-full bg-brand-100 dark:bg-brand-900/50 text-brand-700 dark:text-brand-300" data-i18n="exp-span">
+              25 Years Total
+            </span>
+          </div>
+
+          <!-- Timeline Grid -->
+          <div class="relative border-l-2 rtl:border-r-2 rtl:border-l-0 border-slate-200 dark:border-slate-800 ml-4 rtl:ml-0 rtl:mr-4 space-y-8">
+            
+            <!-- Item 1: Current School -->
+            <div class="relative pl-6 rtl:pl-0 rtl:pr-6 group page-break-inside-avoid">
+              <!-- Timeline Dot -->
+              <div class="absolute -left-[9px] rtl:-left-auto rtl:-right-[9px] top-1 w-4 h-4 rounded-full bg-brand-600 border-4 border-white dark:border-slate-900 group-hover:scale-125 transition-transform"></div>
+              
+              <div class="bg-slate-50 dark:bg-slate-800/60 p-5 rounded-2xl border border-slate-100 dark:border-slate-800">
+                <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+                  <h3 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white" data-i18n="job-1-title">
+                    Senior English Language Teacher
+                  </h3>
+                  <span class="px-2.5 py-1 rounded-md text-xs font-bold bg-emerald-100 dark:bg-emerald-950/80 text-emerald-800 dark:text-emerald-300" data-i18n="job-1-period">
+                    Current Position
+                  </span>
+                </div>
+                <div class="text-sm font-semibold text-brand-600 dark:text-brand-400 mb-2 flex items-center gap-2">
+                  <i class="fa-solid fa-school"></i>
+                  <span data-i18n="job-1-school">Dukhan Joint School for Boys (مدرسة دخان المشتركة للبنين)</span>
+                </div>
+                <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed" data-i18n="job-1-desc">
+                  Delivering high-standard English language education, implementing differentiated instruction, integrating educational technology, and mentoring students to achieve top academic standards in Qatari national educational frameworks.
+                </p>
+              </div>
+            </div>
+
+            <!-- Item 2: Qatar Experience Breakdown -->
+            <div class="relative pl-6 rtl:pl-0 rtl:pr-6 group page-break-inside-avoid">
+              <div class="absolute -left-[9px] rtl:-left-auto rtl:-right-[9px] top-1 w-4 h-4 rounded-full bg-slate-400 dark:bg-slate-600 border-4 border-white dark:border-slate-900"></div>
+              
+              <div class="bg-slate-50 dark:bg-slate-800/60 p-5 rounded-2xl border border-slate-100 dark:border-slate-800">
+                <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+                  <h3 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white" data-i18n="job-2-title">
+                    Educational Career in State of Qatar
+                  </h3>
+                  <span class="px-2.5 py-1 rounded-md text-xs font-semibold bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300" data-i18n="job-2-period">
+                    16 Years
+                  </span>
+                </div>
+                <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed mb-3" data-i18n="job-2-desc">
+                  Extensive experience across various educational tiers within Qatari Ministry schools, applying Qatar National Curriculum Standards and continuous formative assessment techniques.
+                </p>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs">
+                  <div class="p-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-center font-medium" data-i18n="tier-early">
+                    Early Childhood Education
+                  </div>
+                  <div class="p-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-center font-medium" data-i18n="tier-primary">
+                    Primary Education Level
+                  </div>
+                  <div class="p-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-center font-medium" data-i18n="tier-prep">
+                    Preparatory Education Level
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Item 3: Total Overseas & General Teaching -->
+            <div class="relative pl-6 rtl:pl-0 rtl:pr-6 group page-break-inside-avoid">
+              <div class="absolute -left-[9px] rtl:-left-auto rtl:-right-[9px] top-1 w-4 h-4 rounded-full bg-slate-400 dark:bg-slate-600 border-4 border-white dark:border-slate-900"></div>
+              
+              <div class="bg-slate-50 dark:bg-slate-800/60 p-5 rounded-2xl border border-slate-100 dark:border-slate-800">
+                <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+                  <h3 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white" data-i18n="job-3-title">
+                    Foundational Teaching & International Experience
+                  </h3>
+                  <span class="px-2.5 py-1 rounded-md text-xs font-semibold bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300" data-i18n="job-3-period">
+                    9 Years (Total 25 Yrs)
+                  </span>
+                </div>
+                <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed" data-i18n="job-3-desc">
+                  Started educational career following graduation in 2000, establishing strong pedagogy in grammar, ESL, curriculum planning, student motivation, and classroom management.
+                </p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION: EDUCATION & LICENSES -->
+      <section id="tab-content-education" class="tab-content hidden space-y-6">
+        
+        <!-- Higher Education -->
+        <div class="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-8 border border-slate-200 dark:border-slate-800 shadow-sm page-break-inside-avoid">
+          <div class="flex items-center gap-3 mb-6">
+            <div class="w-8 h-8 rounded-lg bg-brand-50 dark:bg-brand-950/60 text-brand-600 dark:text-brand-400 flex items-center justify-center font-bold">
+              <i class="fa-solid fa-graduation-cap"></i>
+            </div>
+            <h2 class="text-xl font-bold text-slate-900 dark:text-white" data-i18n="edu-title">
+              Academic Qualifications
+            </h2>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <!-- Bachelor's Degree -->
+            <div class="p-5 rounded-2xl bg-gradient-to-br from-slate-50 to-brand-50/30 dark:from-slate-800/60 dark:to-brand-950/20 border border-slate-200 dark:border-slate-800">
+              <div class="flex justify-between items-start mb-2">
+                <span class="text-xs font-bold text-brand-600 dark:text-brand-400 uppercase tracking-wider">Year 2000</span>
+                <i class="fa-solid fa-user-graduate text-slate-400 text-xl"></i>
+              </div>
+              <h3 class="text-base font-bold text-slate-900 dark:text-white" data-i18n="edu-ba-title">
+                Bachelor of Arts and Education (B.A. Ed)
+              </h3>
+              <p class="text-xs text-slate-500 dark:text-slate-400 mt-1" data-i18n="edu-ba-spec">
+                Major in English Language Teaching & Methodology
+              </p>
+            </div>
+
+            <!-- Professional Diploma -->
+            <div class="p-5 rounded-2xl bg-gradient-to-br from-slate-50 to-emerald-50/30 dark:from-slate-800/60 dark:to-emerald-950/20 border border-slate-200 dark:border-slate-800">
+              <div class="flex justify-between items-start mb-2">
+                <span class="text-xs font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider" data-i18n="edu-postgrad">Postgraduate Studies</span>
+                <i class="fa-solid fa-certificate text-emerald-500 text-xl"></i>
+              </div>
+              <h3 class="text-base font-bold text-slate-900 dark:text-white" data-i18n="edu-dip-title">
+                Professional Diploma in Special Education
+              </h3>
+              <p class="text-xs text-slate-500 dark:text-slate-400 mt-1" data-i18n="edu-dip-spec">
+                Specialized in teaching strategies for diverse and special needs learners
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Official Licenses Cards -->
+        <div class="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-8 border border-slate-200 dark:border-slate-800 shadow-sm page-break-inside-avoid">
+          <div class="flex items-center gap-3 mb-6">
+            <div class="w-8 h-8 rounded-lg bg-brand-50 dark:bg-brand-950/60 text-brand-600 dark:text-brand-400 flex items-center justify-center font-bold">
+              <i class="fa-solid fa-id-badge"></i>
+            </div>
+            <h2 class="text-xl font-bold text-slate-900 dark:text-white" data-i18n="lic-title">
+              Professional Teaching Licenses & Credentials
+            </h2>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            
+            <!-- License 1 -->
+            <div class="p-5 rounded-2xl bg-white dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 shadow-sm hover:border-brand-500 transition">
+              <div class="w-10 h-10 rounded-xl bg-brand-100 dark:bg-brand-900/50 text-brand-600 dark:text-brand-300 flex items-center justify-center text-lg mb-3">
+                <i class="fa-solid fa-stamp"></i>
+              </div>
+              <h3 class="font-bold text-slate-900 dark:text-white text-sm sm:text-base" data-i18n="lic-1-title">
+                Professional Teaching License
+              </h3>
+              <p class="text-xs text-slate-500 dark:text-slate-400 mt-1" data-i18n="lic-1-org">
+                Ministry of Education and Higher Education Qatar
+              </p>
+            </div>
+
+            <!-- License 2 -->
+            <div class="p-5 rounded-2xl bg-white dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 shadow-sm hover:border-brand-500 transition">
+              <div class="w-10 h-10 rounded-xl bg-blue-100 dark:bg-blue-900/50 text-blue-600 dark:text-blue-300 flex items-center justify-center text-lg mb-3">
+                <i class="fa-solid fa-laptop text-lg"></i>
+              </div>
+              <h3 class="font-bold text-slate-900 dark:text-white text-sm sm:text-base" data-i18n="lic-2-title">
+                ICDL License
+              </h3>
+              <p class="text-xs text-slate-500 dark:text-slate-400 mt-1" data-i18n="lic-2-org">
+                International Computer Driving License Foundation
+              </p>
+            </div>
+
+            <!-- License 3 -->
+            <div class="p-5 rounded-2xl bg-white dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 shadow-sm hover:border-brand-500 transition">
+              <div class="w-10 h-10 rounded-xl bg-teal-100 dark:bg-teal-900/50 text-teal-600 dark:text-teal-300 flex items-center justify-center text-lg mb-3">
+                <i class="fa-solid fa-rocket"></i>
+              </div>
+              <h3 class="font-bold text-slate-900 dark:text-white text-sm sm:text-base" data-i18n="lic-3-title">
+                INTL Teaching License
+              </h3>
+              <p class="text-xs text-slate-500 dark:text-slate-400 mt-1" data-i18n="lic-3-org">
+                Teaching for the Future International Certification
+              </p>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION: TRAINING & WORKSHOPS -->
+      <section id="tab-content-training" class="tab-content hidden space-y-6">
+        <div class="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-8 border border-slate-200 dark:border-slate-800 shadow-sm">
+          <div class="flex items-center gap-3 mb-6">
+            <div class="w-8 h-8 rounded-lg bg-brand-50 dark:bg-brand-950/60 text-brand-600 dark:text-brand-400 flex items-center justify-center font-bold">
+              <i class="fa-solid fa-chalkboard-user"></i>
+            </div>
+            <h2 class="text-xl font-bold text-slate-900 dark:text-white" data-i18n="train-title">
+              Training Courses & Professional Development
+            </h2>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            
+            <!-- Course 1 -->
+            <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-800 flex items-start gap-3.5 page-break-inside-avoid">
+              <div class="w-8 h-8 rounded-xl bg-brand-100 dark:bg-brand-900/40 text-brand-600 dark:text-brand-400 flex items-center justify-center shrink-0 mt-0.5">
+                <i class="fa-solid fa-award text-sm"></i>
+              </div>
+              <div>
+                <h3 class="font-bold text-slate-900 dark:text-white text-sm" data-i18n="c1-title">Novice Standards Course</h3>
+                <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5" data-i18n="c1-org">Supreme Education Council</p>
+              </div>
+            </div>
+
+            <!-- Course 2 -->
+            <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-800 flex items-start gap-3.5 page-break-inside-avoid">
+              <div class="w-8 h-8 rounded-xl bg-emerald-100 dark:bg-emerald-900/40 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0 mt-0.5">
+                <i class="fa-solid fa-medal text-sm"></i>
+              </div>
+              <div>
+                <h3 class="font-bold text-slate-900 dark:text-white text-sm" data-i18n="c2-title">Proficient Standards Course</h3>
+                <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5" data-i18n="c2-org">Supreme Education Council</p>
+              </div>
+            </div>
+
+            <!-- Course 3 -->
+            <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-800 flex items-start gap-3.5 page-break-inside-avoid">
+              <div class="w-8 h-8 rounded-xl bg-amber-100 dark:bg-amber-900/40 text-amber-600 dark:text-amber-400 flex items-center justify-center shrink-0 mt-0.5">
+                <i class="fa-solid fa-chart-line text-sm"></i>
+              </div>
+              <div>
+                <h3 class="font-bold text-slate-900 dark:text-white text-sm" data-i18n="c3-title">Formative Assessment Strategies</h3>
+                <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5" data-i18n="c3-org">Modern Student Evaluation & Feedback Techniques</p>
+              </div>
+            </div>
+
+            <!-- Course 4 -->
+            <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-800 flex items-start gap-3.5 page-break-inside-avoid">
+              <div class="w-8 h-8 rounded-xl bg-purple-100 dark:bg-purple-900/40 text-purple-600 dark:text-purple-400 flex items-center justify-center shrink-0 mt-0.5">
+                <i class="fa-solid fa-layer-group text-sm"></i>
+              </div>
+              <div>
+                <h3 class="font-bold text-slate-900 dark:text-white text-sm" data-i18n="c4-title">Differentiated Instruction Strategies</h3>
+                <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5" data-i18n="c4-org">Tailoring Education to Diverse Learning Styles</p>
+              </div>
+            </div>
+
+            <!-- Course 5 -->
+            <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-800 flex items-start gap-3.5 page-break-inside-avoid">
+              <div class="w-8 h-8 rounded-xl bg-rose-100 dark:bg-rose-900/40 text-rose-600 dark:text-rose-400 flex items-center justify-center shrink-0 mt-0.5">
+                <i class="fa-solid fa-lightbulb text-sm"></i>
+              </div>
+              <div>
+                <h3 class="font-bold text-slate-900 dark:text-white text-sm" data-i18n="c5-title">Creative Thinking Skills</h3>
+                <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5" data-i18n="c5-org">Fostering Critical & Creative Thought in Language Arts</p>
+              </div>
+            </div>
+
+            <!-- Course 6 -->
+            <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-800 flex items-start gap-3.5 page-break-inside-avoid">
+              <div class="w-8 h-8 rounded-xl bg-teal-100 dark:bg-teal-900/40 text-teal-600 dark:text-teal-400 flex items-center justify-center shrink-0 mt-0.5">
+                <i class="fa-solid fa-microchip text-sm"></i>
+              </div>
+              <div>
+                <h3 class="font-bold text-slate-900 dark:text-white text-sm" data-i18n="c6-title">Technology Integration in Teaching</h3>
+                <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5" data-i18n="c6-org">Smart Classroom & Digital Learning Methodologies</p>
+              </div>
+            </div>
+
+            <!-- Course 7 -->
+            <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-800 flex items-start gap-3.5 md:col-span-2 page-break-inside-avoid">
+              <div class="w-8 h-8 rounded-xl bg-indigo-100 dark:bg-indigo-900/40 text-indigo-600 dark:text-indigo-400 flex items-center justify-center shrink-0 mt-0.5">
+                <i class="fa-solid fa-user-tie text-sm"></i>
+              </div>
+              <div>
+                <h3 class="font-bold text-slate-900 dark:text-white text-sm" data-i18n="c7-title">Educational Consultant Diploma</h3>
+                <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5" data-i18n="c7-org">Advanced Mentorship, Advisory, and School Development Leadership</p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION: CORE COMPETENCIES MATRIX -->
+      <section id="tab-content-skills" class="tab-content hidden space-y-6">
+        <div class="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-8 border border-slate-200 dark:border-slate-800 shadow-sm">
+          <div class="flex items-center gap-3 mb-6">
+            <div class="w-8 h-8 rounded-lg bg-brand-50 dark:bg-brand-950/60 text-brand-600 dark:text-brand-400 flex items-center justify-center font-bold">
+              <i class="fa-solid fa-sliders"></i>
+            </div>
+            <h2 class="text-xl font-bold text-slate-900 dark:text-white" data-i18n="skills-title">
+              Professional Competencies Matrix
+            </h2>
+          </div>
+
+          <div class="space-y-5">
+            <!-- Skill 1 -->
+            <div>
+              <div class="flex justify-between text-xs sm:text-sm font-bold mb-1.5">
+                <span class="text-slate-800 dark:text-slate-200" data-i18n="s1-name">English Curriculum Mastery & Pedagogy</span>
+                <span class="text-brand-600 dark:text-brand-400">98%</span>
+              </div>
+              <div class="w-full h-3 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
+                <div class="h-full bg-brand-600 rounded-full transition-all duration-1000" style="width: 98%"></div>
+              </div>
+            </div>
+
+            <!-- Skill 2 -->
+            <div>
+              <div class="flex justify-between text-xs sm:text-sm font-bold mb-1.5">
+                <span class="text-slate-800 dark:text-slate-200" data-i18n="s2-name">Special Education & Inclusive Strategies</span>
+                <span class="text-brand-600 dark:text-brand-400">95%</span>
+              </div>
+              <div class="w-full h-3 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
+                <div class="h-full bg-emerald-600 rounded-full transition-all duration-1000" style="width: 95%"></div>
+              </div>
+            </div>
+
+            <!-- Skill 3 -->
+            <div>
+              <div class="flex justify-between text-xs sm:text-sm font-bold mb-1.5">
+                <span class="text-slate-800 dark:text-slate-200" data-i18n="s3-name">Differentiated Teaching Methods</span>
+                <span class="text-brand-600 dark:text-brand-400">95%</span>
+              </div>
+              <div class="w-full h-3 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
+                <div class="h-full bg-amber-600 rounded-full transition-all duration-1000" style="width: 95%"></div>
+              </div>
+            </div>
+
+            <!-- Skill 4 -->
+            <div>
+              <div class="flex justify-between text-xs sm:text-sm font-bold mb-1.5">
+                <span class="text-slate-800 dark:text-slate-200" data-i18n="s4-name">Educational Technology Integration (EdTech)</span>
+                <span class="text-brand-600 dark:text-brand-400">92%</span>
+              </div>
+              <div class="w-full h-3 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
+                <div class="h-full bg-purple-600 rounded-full transition-all duration-1000" style="width: 92%"></div>
+              </div>
+            </div>
+
+            <!-- Skill 5 -->
+            <div>
+              <div class="flex justify-between text-xs sm:text-sm font-bold mb-1.5">
+                <span class="text-slate-800 dark:text-slate-200" data-i18n="s5-name">Formative & Summative Student Evaluation</span>
+                <span class="text-brand-600 dark:text-brand-400">96%</span>
+              </div>
+              <div class="w-full h-3 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
+                <div class="h-full bg-teal-600 rounded-full transition-all duration-1000" style="width: 96%"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tag Cloud Competencies -->
+          <div class="mt-8 pt-6 border-t border-slate-100 dark:border-slate-800">
+            <h3 class="text-sm font-bold text-slate-900 dark:text-white mb-3" data-i18n="additional-skills-title">
+              Additional Skills & Methods
+            </h3>
+            <div class="flex flex-wrap gap-2 text-xs">
+              <span class="px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-medium" data-i18n="tag-1">Classroom Management</span>
+              <span class="px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-medium" data-i18n="tag-2">Student Motivation</span>
+              <span class="px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-medium" data-i18n="tag-3">Creative Problem Solving</span>
+              <span class="px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-medium" data-i18n="tag-4">Educational Consultation</span>
+              <span class="px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-medium" data-i18n="tag-5">Parental Collaboration</span>
+              <span class="px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-medium" data-i18n="tag-6">Qatar Curriculum Standards</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- INTERACTIVE CONTACT MODAL -->
+  <div id="contact-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm hidden no-print transition-all">
+    <div class="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-8 max-w-lg w-full border border-slate-200 dark:border-slate-800 shadow-2xl relative animate-fade-in">
+      <button onclick="closeContactModal()" class="absolute top-5 right-5 rtl:right-auto rtl:left-5 text-slate-400 hover:text-slate-600 dark:hover:text-white text-xl">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+
+      <div class="flex items-center gap-3 mb-4">
+        <div class="w-10 h-10 rounded-xl bg-brand-100 dark:bg-brand-950 text-brand-600 dark:text-brand-400 flex items-center justify-center font-bold text-lg">
+          <i class="fa-solid fa-paper-plane"></i>
+        </div>
+        <div>
+          <h3 class="text-lg font-bold text-slate-900 dark:text-white" data-i18n="modal-title">Send a Message</h3>
+          <p class="text-xs text-slate-500 dark:text-slate-400" data-i18n="modal-subtitle">Direct communication with Mohamed Abou Hamail</p>
+        </div>
+      </div>
+
+      <form id="contact-form" onsubmit="handleFormSubmit(event)" class="space-y-4">
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1" data-i18n="lbl-name">Your Name</label>
+          <input type="text" required class="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white text-sm focus:outline-none focus:border-brand-500" placeholder="e.g. Principal / Recruiter">
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1" data-i18n="lbl-msg">Message</label>
+          <textarea rows="4" required class="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white text-sm focus:outline-none focus:border-brand-500" placeholder="Type your inquiry or invitation..."></textarea>
+        </div>
+
+        <div class="flex items-center justify-end gap-3 pt-2">
+          <button type="button" onclick="closeContactModal()" class="px-4 py-2 rounded-xl text-xs font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800" data-i18n="btn-cancel">Cancel</button>
+          <button type="submit" class="px-5 py-2 rounded-xl text-xs font-semibold bg-brand-600 hover:bg-brand-700 text-white shadow-md" data-i18n="btn-send">Send via WhatsApp</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="mt-auto border-t border-slate-200 dark:border-slate-800 py-6 text-center text-xs text-slate-500 dark:text-slate-400 no-print">
+    <p>© 2026 Mohamed Ali Abou Hamail. All Rights Reserved.</p>
+  </footer>
+
+  <!-- JAVASCRIPT LOGIC -->
+  <script>
+    // BILINGUAL TRANSLATION DATA DICTIONARY
+    const translations = {
+      en: {
+        "nav-title": "Mohamed Ali Abou Hamail",
+        "btn-contact": "Send Message",
+        "btn-print": "Print / PDF",
+        "badge-licensed": "Licensed",
+        "tagline": "Senior Educator & Special Education Specialist",
+        "role-title": "Senior English Language Teacher",
+        "current-school": "Dukhan Joint School for Boys",
+        "location": "Doha - Bin Mahmoud, Qatar",
+        "nationality": "Egyptian",
+        "stat-total-exp": "Years Total Experience",
+        "stat-qatar-exp": "Years Teaching in Qatar",
+        "stat-spec-ed-title": "Diploma",
+        "stat-spec-ed": "Special Education",
+        "stat-licenses": "Official Licenses",
+        "tab-overview": "Overview & Objective",
+        "tab-experience": "Teaching Experience",
+        "tab-education": "Education & Licenses",
+        "tab-training": "Training Courses",
+        "tab-skills": "Core Competencies",
+        "section-objective-title": "Career Objective & Profile",
+        "objective-text": "Utilizing extensive 25-year teaching experience to enhance educational practices, boost academic achievement, and foster student skills through modern teaching strategies and specialized expertise in Special Education. Passionate about creating inclusive, technology-integrated learning environments that empower students across diverse academic levels in Qatar.",
+        "personal-details-title": "Personal Details",
+        "lbl-id": "Personal ID Number:",
+        "lbl-jobid": "Job ID / Employee ID:",
+        "lbl-specialty": "Specialized Field:",
+        "val-specialty": "English Language Education",
+        "lbl-religion": "Religion:",
+        "val-religion": "Muslim",
+        "lbl-residence": "Residence Area:",
+        "val-residence": "Doha - Bin Mahmoud, Qatar",
+        "key-highlights-title": "Key Highlights",
+        "hl-1-title": "Licensed Educator in Qatar",
+        "hl-1-desc": "Official Teaching License from the Ministry of Education and Higher Education in Qatar.",
+        "hl-2-title": "Special Education Integration",
+        "hl-2-desc": "Professional diploma specializing in adaptive learning methods for students with individual needs.",
+        "hl-3-title": "EdTech Leadership",
+        "hl-3-desc": "Certified INTL & ICDL teacher leveraging smart classroom tech and digital instruction tools.",
+        "exp-title": "Teaching & Professional Experience",
+        "exp-span": "25 Years Total",
+        "job-1-title": "Senior English Language Teacher",
+        "job-1-period": "Current Position",
+        "job-1-school": "Dukhan Joint School for Boys",
+        "job-1-desc": "Delivering high-standard English language education, implementing differentiated instruction, integrating educational technology, and mentoring students to achieve top academic standards in Qatari national educational frameworks.",
+        "job-2-title": "Educational Career in State of Qatar",
+        "job-2-period": "16 Years",
+        "job-2-desc": "Extensive experience across various educational tiers within Qatari Ministry schools, applying Qatar National Curriculum Standards and continuous formative assessment techniques.",
+        "tier-early": "Early Childhood Education",
+        "tier-primary": "Primary Education Level",
+        "tier-prep": "Preparatory Education Level",
+        "job-3-title": "Foundational Teaching & International Experience",
+        "job-3-period": "9 Years (Total 25 Yrs)",
+        "job-3-desc": "Started educational career following graduation in 2000, establishing strong pedagogy in grammar, ESL, curriculum planning, student motivation, and classroom management.",
+        "edu-title": "Academic Qualifications",
+        "edu-ba-title": "Bachelor of Arts and Education (B.A. Ed)",
+        "edu-ba-spec": "Major in English Language Teaching & Methodology (Year 2000)",
+        "edu-postgrad": "Postgraduate Diploma",
+        "edu-dip-title": "Professional Diploma in Special Education",
+        "edu-dip-spec": "Specialized in teaching strategies for diverse and special needs learners",
+        "lic-title": "Professional Teaching Licenses & Credentials",
+        "lic-1-title": "Professional Teaching License",
+        "lic-1-org": "Ministry of Education and Higher Education Qatar",
+        "lic-2-title": "ICDL License",
+        "lic-2-org": "International Computer Driving License Foundation",
+        "lic-3-title": "INTL Teaching License",
+        "lic-3-org": "Teaching for the Future International Certification",
+        "train-title": "Training Courses & Professional Development",
+        "c1-title": "Novice Standards Course",
+        "c1-org": "Supreme Education Council",
+        "c2-title": "Proficient Standards Course",
+        "c2-org": "Supreme Education Council",
+        "c3-title": "Formative Assessment Strategies",
+        "c3-org": "Modern Student Evaluation & Feedback Techniques",
+        "c4-title": "Differentiated Instruction Strategies",
+        "c4-org": "Tailoring Education to Diverse Learning Styles",
+        "c5-title": "Creative Thinking Skills",
+        "c5-org": "Fostering Critical & Creative Thought in Language Arts",
+        "c6-title": "Technology Integration in Teaching",
+        "c6-org": "Smart Classroom & Digital Learning Methodologies",
+        "c7-title": "Educational Consultant Diploma",
+        "c7-org": "Advanced Mentorship, Advisory, and School Development Leadership",
+        "skills-title": "Professional Competencies Matrix",
+        "s1-name": "English Curriculum Mastery & Pedagogy",
+        "s2-name": "Special Education & Inclusive Strategies",
+        "s3-name": "Differentiated Teaching Methods",
+        "s4-name": "Educational Technology Integration (EdTech)",
+        "s5-name": "Formative & Summative Student Evaluation",
+        "additional-skills-title": "Additional Skills & Methods",
+        "tag-1": "Classroom Management",
+        "tag-2": "Student Motivation",
+        "tag-3": "Creative Problem Solving",
+        "tag-4": "Educational Consultation",
+        "tag-5": "Parental Collaboration",
+        "tag-6": "Qatar Curriculum Standards",
+        "modal-title": "Send a Message",
+        "modal-subtitle": "Direct communication with Mohamed Abou Hamail",
+        "lbl-name": "Your Name",
+        "lbl-msg": "Message",
+        "btn-cancel": "Cancel",
+        "btn-send": "Send via WhatsApp"
+      },
+      ar: {
+        "nav-title": "محمد علي أبو حمايل",
+        "btn-contact": "تواصل معي",
+        "btn-print": "طباعة / PDF",
+        "badge-licensed": "معلم مرخص",
+        "tagline": "معلم خبير ومختص تربية خاصة",
+        "role-title": "معلم لغة إنجليزية",
+        "current-school": "مدرسة دخان المشتركة للبنين",
+        "location": "الدوحة - منطقة بن محمود، قطر",
+        "nationality": "مصري",
+        "stat-total-exp": "عاماً إجمالي الخبرة",
+        "stat-qatar-exp": "عاماً تدريس في دولة قطر",
+        "stat-spec-ed-title": "دبلومة",
+        "stat-spec-ed": "التربية الخاصة",
+        "stat-licenses": "تراخيص وشهادات رسمية",
+        "tab-overview": "النبذة والهدف المهني",
+        "tab-experience": "الخبرات العملية",
+        "tab-education": "المؤهلات والتراخيص",
+        "tab-training": "الدورات والشهادات",
+        "tab-skills": "المهارات والكفايات",
+        "section-objective-title": "الهدف المهني والملف الشخصي",
+        "objective-text": "توظيف الخبرة الطويلة التي تمتد لـ 25 عامًا في مجال التعليم والتدريس، وتطوير الممارسات التعليمية بما يسهم في رفع مستوى التحصيل الأكاديمي وتنمية مهارات الطلاب، مع الاستفادة من الخبرات المتخصصة في التربية الخاصة واستراتيجيات التعليم الحديثة والتكامل التكنولوجي.",
+        "personal-details-title": "البيانات الشخصية",
+        "lbl-id": "الرقم الشخصي:",
+        "lbl-jobid": "الرقم الوظيفي:",
+        "lbl-specialty": "التخصص:",
+        "val-specialty": "معلم لغة إنجليزية",
+        "lbl-religion": "الديانة:",
+        "val-religion": "مسلم",
+        "lbl-residence": "السكن الحالي:",
+        "val-residence": "الدوحة - منطقة بن محمود، قطر",
+        "key-highlights-title": "أبرز المحطات المهنية",
+        "hl-1-title": "رخصة مهنية معتمدة في دولة قطر",
+        "hl-1-desc": "حاصل على الرخصة المهنية للتدريس من وزارة التربية والتعليم والتعليم العالي.",
+        "hl-2-title": "تخصص دبلومة التربية الخاصة",
+        "hl-2-desc": "مؤهل عالي في التعامل مع تفاوت مستويات الطلاب وتطبيق الدمج التعليمي بنجاح.",
+        "hl-3-title": "دمج التكنولوجيا والتعليم الرقمي",
+        "hl-3-desc": "حاصل على رخصتي INTL و ICDL لاستخدام أحدث الأساليب الرقمية والصفوف الذكية.",
+        "exp-title": "الخبرات العملية والتدريسية",
+        "exp-span": "25 عاماً إجمالاً",
+        "job-1-title": "معلم لغة إنجليزية",
+        "job-1-period": "العمل الحالي",
+        "job-1-school": "مدرسة دخان المشتركة للبنين",
+        "job-1-desc": "تقديم مادة اللغة الإنجليزية وفق أحدث المعايير التربوية، وتطبيق التعليم المتمايز والتقييم البنائي لتطوير التحصيل الأكاديمي لدى الطلاب.",
+        "job-2-title": "خبرة التدريس داخل دولة قطر",
+        "job-2-period": "16 عاماً",
+        "job-2-desc": "خبرة واسعة وممتدة عبر مختلف المراحل التعليمية بالمدارس الحكومية في دولة قطر وفق معايير المناهج الوطنية.",
+        "tier-early": "مرحلة التعليم المبكر",
+        "tier-primary": "المرحلة الابتدائية",
+        "tier-prep": "المرحلة الإعدادية",
+        "job-3-title": "الخبرات التأسيسية والدولية",
+        "job-3-period": "9 أعوام (من إجمالي 25 عاماً)",
+        "job-3-desc": "بداية المسيرة التعليمية عقب الحصول على الليسانس عام 2000 وتطوير مهارات إدارة الصف والتخطيط التربوي وتحفيز الطلاب.",
+        "edu-title": "المؤهلات العلمية",
+        "edu-ba-title": "ليسانس آداب وتربية",
+        "edu-ba-spec": "تخصص تدريس وطرق مناهج اللغة الإنجليزية (عام 2000)",
+        "edu-postgrad": "الدراسات العليا",
+        "edu-dip-title": "دبلومة مهنية في التربية الخاصة",
+        "edu-dip-spec": "متخصص في أساليب التدريس المتمايز للطلاب وذوي الاحتياجات الخاصة",
+        "lic-title": "التراخيص والرخص المهنية",
+        "lic-1-title": "الرخصة المهنية في التدريس",
+        "lic-1-org": "وزارة التربية والتعليم والتعليم العالي - قطر",
+        "lic-2-title": "رخصة القيادة الدولية للكمبيوتر (ICDL)",
+        "lic-2-org": "المؤسسة الدولية لرخصة الكمبيوتر",
+        "lic-3-title": "رخصة التدريس للمستقبل (INTL)",
+        "lic-3-org": "شهادة الاعتماد الدولي للتدريس الرقمي",
+        "train-title": "الدورات والشهادات التدريبية",
+        "c1-title": "دورة معايير المستجد",
+        "c1-org": "المجلس الأعلى للتعليم",
+        "c2-title": "دورة معايير الكفء",
+        "c2-org": "المجلس الأعلى للتعليم",
+        "c3-title": "دورة استراتيجيات التقييم البنائي",
+        "c3-org": "أساليب التقييم الحديث والتغذية الراجعة للطلاب",
+        "c4-title": "دورة استراتيجيات التعليم المتمايز",
+        "c4-org": "مراعاة الفروق الفردية وأنماط التعلم المختلفة",
+        "c5-title": "دورة مهارات التفكير الإبداعي",
+        "c5-org": "تنمية التفكير الناقد والإبداعي في حصص اللغة",
+        "c6-title": "دورة التكامل مع التكنولوجيا في التدريس",
+        "c6-org": "توظيف الصفوف الذكية والأدوات الرقمية",
+        "c7-title": "دورة دبلوم المستشار التربوي",
+        "c7-org": "القيادة التربوية والتوجيه والإرشاد الأكاديمي",
+        "skills-title": "مصفوفة الكفايات والمهارات",
+        "s1-name": "إتقان مناهج وطرق تدريس اللغة الإنجليزية",
+        "s2-name": "استراتيجيات التربية الخاصة والدمج",
+        "s3-name": "أساليب التعليم المتمايز ومراعاة الفروق",
+        "s4-name": "التكامل مع التكنولوجيا والتعليم الرقمي",
+        "s5-name": "استراتيجيات التقييم البنائي والختامي",
+        "additional-skills-title": "مهارات وأساليب إضافية",
+        "tag-1": "إدارة الصف والبيئة التعليمية",
+        "tag-2": "تحفيز الطلاب وتنمية المهارات",
+        "tag-3": "التفكير الإبداعي وحل المشكلات",
+        "tag-4": "الاستشارات التربوية",
+        "tag-5": "التواصل مع أولياء الأمور",
+        "tag-6": "معايير المناهج القطرية",
+        "modal-title": "إرسال رسالة",
+        "modal-subtitle": "تواصل مباشر مع الأستاذ محمد أبو حمايل",
+        "lbl-name": "الاسم الكريم",
+        "lbl-msg": "نص الرسالة",
+        "btn-cancel": "إلغاء",
+        "btn-send": "إرسال عبر واتساب"
+      }
+    };
+
+    let currentLang = 'en';
+
+    // TOGGLE LANGUAGE FUNCTION
+    function toggleLanguage() {
+      currentLang = currentLang === 'en' ? 'ar' : 'en';
+      const htmlElem = document.documentElement;
+      const langLabel = document.getElementById('lang-label');
+      const heroName = document.getElementById('hero-name');
+
+      if (currentLang === 'ar') {
+        htmlElem.setAttribute('dir', 'rtl');
+        htmlElem.setAttribute('lang', 'ar');
+        langLabel.innerText = 'English';
+        heroName.innerText = 'محمد علي حسين عبد الرحمن أبو حمايل';
+      } else {
+        htmlElem.setAttribute('dir', 'ltr');
+        htmlElem.setAttribute('lang', 'en');
+        langLabel.innerText = 'عربي';
+        heroName.innerText = 'Mohamed Ali Hussein Abdul Rahman Abou Hamail';
+      }
+
+      // Update text elements with i18n key
+      document.querySelectorAll('[data-i18n]').forEach(elem => {
+        const key = elem.getAttribute('data-i18n');
+        if (translations[currentLang] && translations[currentLang][key]) {
+          elem.innerText = translations[currentLang][key];
+        }
+      });
+    }
+
+    // DARK / LIGHT THEME TOGGLE
+    function toggleTheme() {
+      const html = document.documentElement;
+      if (html.classList.contains('dark')) {
+        html.classList.remove('dark');
+        localStorage.setItem('theme', 'light');
+      } else {
+        html.classList.add('dark');
+        localStorage.setItem('theme', 'dark');
+      }
+    }
+
+    // INITIALIZE THEME PREFERENCE
+    if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+
+    // TAB SWITCHING SYSTEM
+    function switchTab(tabName) {
+      // Hide all contents
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+      
+      // Reset active styles on buttons
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('active-tab', 'bg-brand-600', 'text-white');
+        btn.classList.add('text-slate-600', 'dark:text-slate-400');
+      });
+
+      // Show targeted tab
+      const targetContent = document.getElementById(`tab-content-${tabName}`);
+      if (targetContent) targetContent.classList.remove('hidden');
+
+      // Highlight target button
+      const targetBtn = document.getElementById(`tab-btn-${tabName}`);
+      if (targetBtn) {
+        targetBtn.classList.add('active-tab', 'bg-brand-600', 'text-white');
+        targetBtn.classList.remove('text-slate-600', 'dark:text-slate-400');
+      }
+    }
+
+    // INITIALIZE FIRST TAB ACTIVE STYLE
+    document.addEventListener("DOMContentLoaded", () => {
+      switchTab('overview');
+    });
+
+    // CONTACT MODAL LOGIC
+    function openContactModal() {
+      document.getElementById('contact-modal').classList.remove('hidden');
+    }
+
+    function closeContactModal() {
+      document.getElementById('contact-modal').classList.add('hidden');
+    }
+
+    function handleFormSubmit(e) {
+      e.preventDefault();
+      const name = e.target.querySelector('input').value;
+      const msg = e.target.querySelector('textarea').value;
+      
+      const whatsappText = `Hello Mohamed, My name is ${name}. ${msg}`;
+      const encoded = encodeURIComponent(whatsappText);
+      window.open(`https://wa.me/97466523184?text=${encoded}`, '_blank');
+      
+      closeContactModal();
+      e.target.reset();
+    }
+  </script>
+</body>
+</html>
